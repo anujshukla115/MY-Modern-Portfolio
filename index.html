@@ -7,12 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         :root {
             --deep: #0d1117;
             --mid: #161b22;
@@ -20,84 +14,36 @@
             --accent: #58a6ff;
             --glow: #58a6ff33;
         }
-        html {
-            scroll-behavior: smooth;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(-45deg, var(--deep), var(--mid), var(--light), var(--mid));
-            background-size: 400% 400%;
-            animation: gradientShift 12s ease-in-out infinite;
-            min-height: 100vh;
-            overflow-x: hidden;
+            background-color: var(--deep);
             color: #c9d1d9;
+            line-height: 1.6;
             padding-bottom: 70px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow-x: hidden;
         }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .slider {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s ease-in-out;
-        }
-        .slide {
-            min-width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            position: relative;
-        }
-        /* Star Canvas */
-        #star-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-        #stars-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-        }
+
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 10px;
             width: 100%;
+            padding: 0 10px;
         }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        /* Navigation */
+
         nav {
             position: fixed;
             bottom: 0;
             width: 100%;
             background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
-            padding: 0.5rem 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 10px 0;
         }
-        nav .container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 100%;
-            max-width: 600px;
-        }
+
         .hamburger {
             display: none;
             background: none;
@@ -105,736 +51,263 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
+
         .nav-links {
             display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 100%;
+            justify-content: center;
+            list-style: none;
         }
-        .nav-icon {
-            position: relative;
-            color: #ffffff;
-            font-size: 1rem;
-            margin: 0 0.5rem;
-            padding: 0.5rem;
-            transition: all 0.3s ease;
-        }
-        .nav-icon:hover {
-            color: #58a6ff;
-            transform: scale(1.2);
-        }
-        .nav-icon::after {
-            content: attr(title);
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.8);
+
+        .nav-links a {
             color: white;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            padding: 10px 15px;
+            text-decoration: none;
         }
-        .nav-icon:hover::after {
-            opacity: 1;
+
+        .nav-links a:hover {
+            color: var(--accent);
         }
-        .nav-icon i {
-            width: 20px;
-            height: 20px;
+
+        .slide {
+            padding: 20px 0;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
         }
-        /* Hero Section */
+
         .hero {
-            padding: 20px;
             text-align: center;
+            padding: 20px;
         }
+
         .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
-        .subtitle {
-            font-size: 1.5rem;
-            color: #b0b0b0;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-        .typing-text {
-            font-size: 1.2rem;
-            color: #4facfe;
-            min-height: 1.2rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
-        }
-        .cta-buttons {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        .cta-button {
-            padding: 8px 16px;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            box-shadow: 0 8px 32px rgba(79, 172, 254, 0.3);
-        }
-        .cta-button:hover {
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            box-shadow: 0 12px 40px rgba(79, 172, 254, 0.4);
-            transform: translateY(-2px);
-        }
-        /* Sections */
+
         .section {
-            padding: 30px 0;
-            width: 100%;
+            padding: 20px 0;
         }
+
         .section-title {
             text-align: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: #ffffff;
-            position: relative;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #4facfe, #00f2fe);
-            box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
-        }
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            align-items: center;
-            text-align: center;
-        }
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto;
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
-        }
-        .profile-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .about-text {
-            color: #d0d0d0;
-            line-height: 1.5;
-            font-size: 1rem;
-        }
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-            justify-content: center;
-        }
-        .skill-tag {
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #ffffff;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .skill-tag:hover {
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(79, 172, 254, 0.3);
-        }
-        .download-buttons {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            justify-content: center;
-        }
-        .cv-button, .resume-button {
-            padding: 8px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 0.8rem;
-        }
-        .cv-button {
-            background: rgba(255, 255, 255, 0.2);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
             color: white;
         }
-        .cv-button:hover {
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+
+        .about-content, .skills-gallery, .projects-gallery, .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
-        /* Skills Section */
-        .skills-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto;
+            overflow: hidden;
         }
-        .skill-card {
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            cursor: pointer;
+
+        .profile-pic img {
+            width: 100%;
+            height: auto;
         }
-        .skill-card:hover {
-            transform: translateY(-2px);
+
+        .skills, .download-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .skill-tag, .cv-button, .resume-button {
+            padding: 5px 10px;
             background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
         }
-        .skill-card h3 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-        }
-        .skill-card p {
-            color: #b0b0b0;
-            font-size: 0.9rem;
-        }
-        /* Projects Section */
+
         .filter-buttons {
             display: flex;
-            gap: 0.5rem;
             justify-content: center;
-            margin-bottom: 1rem;
+            gap: 10px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
+
         .filter-buttons button {
-            padding: 6px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 5px 10px;
             background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+            color: white;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-size: 0.8rem;
         }
-        .filter-buttons button.active,
-        .filter-buttons button:hover {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+
+        .filter-buttons button.active {
+            background: var(--accent);
         }
-        .projects-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-        }
-        .project-card {
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
-        }
-        .project-card h3 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-        }
-        .project-card p {
-            color: #b0b0b0;
-            font-size: 0.8rem;
-        }
-        /* Achievements Section */
-        .certificates-container {
-            max-width: 100%;
-            margin: 0 auto;
-        }
+
         .certificate-folder {
             border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
             border-radius: 8px;
-            margin-bottom: 1rem;
+            margin-bottom: 10px;
             overflow: hidden;
         }
+
         .folder-header {
-            display: flex;
-            align-items: center;
-            padding: 0.8rem 1rem;
             background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
             cursor: pointer;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .folder-header:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(79, 172, 254, 0.3);
-        }
-        .folder-icon {
-            margin-right: 0.8rem;
-        }
-        .folder-icon img, .folder-icon svg {
-            width: 30px;
-            height: 30px;
-        }
-        .folder-header h3 {
-            flex: 1;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #ffffff;
-        }
-        .folder-toggle {
-            transition: transform 0.2s ease;
-            color: #4facfe;
-            font-size: 0.8rem;
-        }
-        .folder-header.active .folder-toggle {
-            transform: rotate(180deg);
-        }
+
         .folder-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.3s ease-out;
         }
+
         .folder-content.active {
-            max-height: 1000px;
-            padding: 0.8rem 1rem;
+            max-height: 500px;
         }
+
         .certificate-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0.8rem;
+            padding: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
         }
-        .certificate-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(79, 172, 254, 0.2);
-        }
-        .certificate-item:last-child {
-            border-bottom: none;
-        }
-        .certificate-img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            border-radius: 5px;
-            margin-bottom: 0.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            cursor: zoom-in;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .certificate-info {
-            text-align: center;
-        }
-        .certificate-info h4 {
-            font-size: 0.9rem;
-            margin-bottom: 0.3rem;
-            color: #ffffff;
-        }
-        .certificate-info p {
-            font-size: 0.8rem;
-            color: #b0b0b0;
-            margin-bottom: 0.3rem;
-        }
-        .certificate-type {
-            display: inline-block;
-            padding: 3px 8px;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            color: white;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-        /* Contact Section */
-        .contact-content {
-            max-width: 100%;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .contact-content p {
-            color: #d0d0d0;
-            font-size: 1rem;
-        }
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
+
         .contact-item {
-            padding: 1rem;
+            text-align: center;
+            padding: 10px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .contact-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.2);
-        }
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0.8rem;
-            font-size: 1rem;
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
-        }
-        .contact-item h3 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-        }
-        .contact-item p {
-            color: #b0b0b0;
-            font-size: 0.8rem;
-        }
-        .contact-link {
-            color: #4facfe;
-            word-break: break-all;
-            font-size: 0.8rem;
-        }
-        .contact-link:hover {
-            color: #00f2fe;
-        }
-        /* Lightbox */
-        #lightbox {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            cursor: pointer;
-        }
-        #lightbox-img {
-            max-width: 90vw;
-            max-height: 90vh;
             border-radius: 8px;
         }
-        /* Responsive Design */
+
         @media (max-width: 768px) {
             .hamburger {
                 display: block;
             }
+
             .nav-links {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                position: absolute;
+                position: fixed;
                 top: 50px;
                 left: 0;
+                width: 100%;
                 background: rgba(0, 0, 0, 0.9);
+                flex-direction: column;
+                align-items: center;
+                display: none;
             }
+
             .nav-links.active {
                 display: flex;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-            .profile-pic {
-                width: 120px;
-                height: 120px;
             }
         }
     </style>
 </head>
 <body>
-    <nav id="navbar">
-        <div class="container">
-            <button id="hamburger" class="hamburger">☰</button>
-            <div class="nav-links">
-                <a href="#home" class="nav-icon" title="Home">
-                    <i class="fas fa-home"></i>
-                </a>
-                <a href="#about" class="nav-icon" title="About">
-                    <i class="fas fa-user"></i>
-                </a>
-                <a href="#skills" class="nav-icon" title="Skills">
-                    <i class="fas fa-code"></i>
-                </a>
-                <a href="#projects" class="nav-icon" title="Projects">
-                    <i class="fas fa-layer-group"></i>
-                </a>
-                <a href="#achievements" class="nav-icon" title="Achievements">
-                    <i class="fas fa-trophy"></i>
-                </a>
-                <a href="#contact" class="nav-icon" title="Contact">
-                    <i class="fas fa-address-card"></i>
-                </a>
-            </div>
-        </div>
+    <nav>
+        <button id="hamburger" class="hamburger">☰</button>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
     </nav>
+
     <div class="slider">
         <div class="slide" id="home">
             <section class="hero">
                 <div class="container">
                     <h1>ANUJ SHUKLA</h1>
-                    <p class="subtitle">Hi, I'm Anuj</p>
-                    <p class="typing-text"></p>
-                    <div class="cta-buttons">
-                        <a href="#projects" class="cta-button">View My Work</a>
-                        <a href="#contact" class="cta-button">Get in touch</a>
-                    </div>
+                    <p>Hi, I'm Anuj</p>
+                    <p class="typing-text">Frontend Developer | Problem Solver | Coder</p>
                 </div>
             </section>
         </div>
+
         <div class="slide" id="about">
             <section class="section">
                 <div class="container">
                     <h2 class="section-title">About Me</h2>
                     <div class="about-content">
-                        <div class="about-image">
-                            <div class="profile-pic">
-                                <img src="Profile-Picture.jpg" alt="Anuj Shukla" class="profile-image">
-                            </div>
+                        <div class="profile-pic">
+                            <img src="Profile-Picture.jpg" alt="Anuj Shukla">
                         </div>
-                        <div class="about-text">
-                            <p>I'm a second-year BCA student at PSIT College with a passion for programming. Proficient in C++, Java, Python, HTML & CSS.</p>
-                            <p>Currently focused on mastering Data Structures & Algorithms while expanding into full-stack development. Aspiring to build a career in full-stack development with plans to contribute to innovative tech solutions.</p>
-                            <div class="skills">
-                                <span class="skill-tag">Problem Solving</span>
-                                <span class="skill-tag">Leadership</span>
-                                <span class="skill-tag">Supportive</span>
-                                <span class="skill-tag">Listening</span>
-                                <span class="skill-tag">Team Collaboration</span>
-                            </div>
-                            <div class="download-buttons">
-                                <a href="" download class="cv-button">📄 Download CV</a>
-                                <a href="" download class="resume-button">📄 Download Resume</a>
-                            </div>
+                        <p>I'm a second-year BCA student at PSIT College with a passion for programming. Proficient in C++, Java, Python, HTML & CSS.</p>
+                        <div class="skills">
+                            <span class="skill-tag">Problem Solving</span>
+                            <span class="skill-tag">Leadership</span>
+                            <span class="skill-tag">Team Collaboration</span>
+                        </div>
+                        <div class="download-buttons">
+                            <a href="#" class="cv-button">Download CV</a>
+                            <a href="#" class="resume-button">Download Resume</a>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
+
         <div class="slide" id="skills">
             <section class="section">
                 <div class="container">
                     <h2 class="section-title">Skills</h2>
                     <div class="skills-gallery">
-                        <div class="skill-card">
-                            <h3>Frontend:</h3>
-                            <p>HTML, CSS, Bootstrap, JavaScript</p>
-                        </div>
-                        <div class="skill-card">
-                            <h3>Programming:</h3>
-                            <p>C, Python, C++</p>
-                        </div>
-                        <div class="skill-card">
-                            <h3>DSA:</h3>
-                            <p>(C++ Problem Solving)</p>
-                        </div>
-                        <div class="skill-card">
-                            <h3>Version Control:</h3>
-                            <p>Git, GitHub</p>
-                        </div>
-                        <div class="skill-card">
-                            <h3>Deployment:</h3>
-                            <p>Netlify, Vercel</p>
-                        </div>
-                        <div class="skill-card">
-                            <h3>Tools:</h3>
-                            <p>VS Code, Chrome DevTools</p>
-                        </div>
+                        <div>Frontend: HTML, CSS, JavaScript</div>
+                        <div>Programming: C, Python, C++</div>
+                        <div>Version Control: Git, GitHub</div>
                     </div>
                 </div>
             </section>
         </div>
+
         <div class="slide" id="projects">
             <section class="section">
                 <div class="container">
                     <h2 class="section-title">Projects</h2>
                     <div class="filter-buttons">
-                        <button data-filter="all" class="active">All</button>
+                        <button class="active" data-filter="all">All</button>
                         <button data-filter="frontend">Frontend</button>
-                        <button data-filter="python">Python</button>
-                        <button data-filter="cpp">C++</button>
                     </div>
                     <div class="projects-gallery">
-                        <div class="project-card frontend">
-                            <h3>Page-Landing-Project</h3>
-                            <p>A static, responsive landing website for a product like a smartwatch, headphones, or mobile</p>
-                        </div>
-                        <div class="project-card frontend">
-                            <h3>My Portfolio</h3>
-                            <p>This modern portfolio with animations</p>
+                        <div class="project-card" data-filter="frontend">
+                            <h3>Portfolio Website</h3>
+                            <p>My personal portfolio website.</p>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
+
         <div class="slide" id="achievements">
             <section class="section">
                 <div class="container">
-                    <h2 class="section-title">Achievements & Certifications</h2>
+                    <h2 class="section-title">Achievements</h2>
                     <div class="certificates-container">
-                        <!-- HackerRank Folder -->
                         <div class="certificate-folder">
-                            <div class="folder-header" data-folder="hackerrank">
-                                <div class="folder-icon">
-                                    <img src="https://cdn-1.webcatalog.io/catalog/hackerrank/hackerrank-icon.png" height="30" width="30">
-                                </div>
-                                <h3>HackerRank</h3>
-                                <div class="folder-toggle">▼</div>
+                            <div class="folder-header">
+                                <span>HackerRank</span>
+                                <span class="folder-toggle">▼</span>
                             </div>
-                            <div class="folder-content" id="hackerrank-content">
+                            <div class="folder-content">
                                 <div class="certificate-item">
-                                    <img src="Hackerrank-CSS.png" alt="CSS BASIC" class="certificate-img">
-                                    <div class="certificate-info">
-                                        <h4>CSS (Basic)</h4>
-                                        <p>HackerRank — 2025</p>
-                                        <span class="certificate-type">Frontend</span>
-                                    </div>
-                                </div>
-                                <div class="certificate-item">
-                                    <img src="Hackerrank-PYTHON.png" alt="Python" class="certificate-img">
-                                    <div class="certificate-info">
-                                        <h4>Python (Basic)</h4>
-                                        <p>HackerRank — 2025</p>
-                                        <span class="certificate-type">Programming</span>
-                                    </div>
-                                </div>
-                                <div class="certificate-item">
-                                    <img src="Hackerrank-Problem Solving.png" alt="Problem Solving (Basic)" class="certificate-img">
-                                    <div class="certificate-info">
-                                        <h4>Problem Solving (Basic)</h4>
-                                        <p>HackerRank — 2025</p>
-                                        <span class="certificate-type">DSA</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- LeetCode Folder -->
-                        <div class="certificate-folder">
-                            <div class="folder-header" data-folder="leetcode">
-                                <div class="folder-icon">
-                                    <img src="https://th.bing.com/th/id/OIP.SPL888qLtYK-N-lmRHoDYgHaHa?w=160&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" height="30" width="30">
-                                </div>
-                                <h3>LeetCode</h3>
-                                <div class="folder-toggle">▼</div>
-                            </div>
-                            <div class="folder-content" id="leetcode-content">
-                                <div class="certificate-item">
-                                    <img src="https://via.placeholder.com/60x60/FFA116/ffffff?text=LC" alt="LeetCode Badge" class="certificate-img">
-                                    <div class="certificate-info">
-                                        <h4>Problem Solving Badge</h4>
-                                        <p>LeetCode — 2024</p>
-                                        <span class="certificate-type">DSA</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- GeeksforGeeks Folder -->
-                        <div class="certificate-folder">
-                            <div class="folder-header" data-folder="gfg">
-                                <div class="folder-icon">
-                                    <img src="https://www.levelupcollege.com/wp-content/uploads/2022/07/gfg-logo.png" height="30" width="30">
-                                </div>
-                                <h3>GeeksforGeeks</h3>
-                                <div class="folder-toggle">▼</div>
-                            </div>
-                            <div class="folder-content" id="gfg-content">
-                                <div class="certificate-item">
-                                    <img src="https://via.placeholder.com/60x60/2F8D46/ffffff?text=DS" alt="GFG Certificate" class="certificate-img">
-                                    <div class="certificate-info">
-                                        <h4>Data Structures Course</h4>
-                                        <p>GeeksforGeeks — 2024</p>
-                                        <span class="certificate-type">DSA</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- NPTEL/Academic Folder -->
-                        <div class="certificate-folder">
-                            <div class="folder-header" data-folder="nptel">
-                                <div class="folder-icon">
-                                    <img src="https://tse4.mm.bing.net/th/id/OIP.a-JZhBUXbkricros6J__6QHaHa?w=768&h=768&rs=1&pid=ImgDetMain&o=7&rm=3" height="30" width="30">
-                                </div>
-                                <h3>NPTEL & Academic</h3>
-                                <div class="folder-toggle">▼</div>
-                            </div>
-                            <div class="folder-content" id="nptel-content">
-                                <div class="certificate-item">
-                                    <img src="https://via.placeholder.com/60x60/FF6B35/ffffff?text=C" alt="NPTEL Certificate" class="certificate-img">
-                                    <div class="certificate-info">
-                                        <h4>Problem Solving through Programming in C (Elite)</h4>
-                                        <p>NPTEL (MoE, Govt. of India), Prof. Haimanti Banerji — 2023</p>
-                                        <span class="certificate-type">Programming</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Other Platforms Folder -->
-                        <div class="certificate-folder">
-                            <div class="folder-header" data-folder="others">
-                                <div class="folder-icon">
-                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-                                        <rect width="24" height="24" rx="4" fill="#9C27B0"/>
-                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="white"/>
-                                    </svg>
-                                </div>
-                                <h3>Other Platforms</h3>
-                                <div class="folder-toggle">▼</div>
-                            </div>
-                            <div class="folder-content" id="others-content">
-                                <div class="certificate-item">
-                                    <img src="https://via.placeholder.com/60x60/0056D3/ffffff?text=WEB" alt="Coursera Certificate" class="certificate-img">
-                                    <div class="certificate-info">
-                                        <h4>Web Development Fundamentals</h4>
-                                        <p>Coursera — 2024</p>
-                                        <span class="certificate-type">Frontend</span>
-                                    </div>
+                                    <h4>CSS (Basic)</h4>
+                                    <p>HackerRank — 2025</p>
                                 </div>
                             </div>
                         </div>
@@ -842,33 +315,14 @@
                 </div>
             </section>
         </div>
+
         <div class="slide" id="contact">
             <section class="section">
                 <div class="container">
-                    <h2 class="section-title">Let's Connect</h2>
-                    <div class="contact-content">
-                        <p>Ready to collaborate? Let's discuss your next project.</p>
-                        <div class="contact-info">
-                            <div class="contact-item">
-                                <div class="contact-icon">📧</div>
-                                <h3>Email</h3>
-                                <p><a href="mailto:anujshukla2431527@gmail.com" class="contact-link">anujshukla2431527@gmail.com</a></p>
-                            </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">💼</div>
-                                <h3>LinkedIn</h3>
-                                <p><a href="https://www.linkedin.com/in/anuj-shukla-022013370" target="_blank" class="contact-link">linkedin.com/in/anuj-shukla-022013370</a></p>
-                            </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">🐙</div>
-                                <h3>GitHub</h3>
-                                <p><a href="https://github.com/anujshukla115" target="_blank" class="contact-link">github.com/anujshukla115</a></p>
-                            </div>
-                            <div class="contact-item">
-                                <div class="contact-icon">🌐</div>
-                                <h3>Website</h3>
-                                <p><a href="https://www.yourwebsite.com" target="_blank" class="contact-link">www.yourwebsite.com</a></p>
-                            </div>
+                    <h2 class="section-title">Contact</h2>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <p>Email: anujshukla2431527@gmail.com</p>
                         </div>
                     </div>
                 </div>
@@ -876,233 +330,23 @@
         </div>
     </div>
 
-    <!-- Lightbox -->
-    <div id="lightbox">
-        <img id="lightbox-img">
-    </div>
-    <!-- Starfield Canvas -->
-    <canvas id="star-canvas"></canvas>
-    <!-- Star-rain canvas -->
-    <canvas id="stars-canvas"></canvas>
-
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
             const hamburger = document.getElementById('hamburger');
             const navLinks = document.querySelector('.nav-links');
 
-            hamburger.addEventListener('click', () => {
+            hamburger.addEventListener('click', function() {
                 navLinks.classList.toggle('active');
             });
 
-            const slider = document.querySelector('.slider');
-            const slides = document.querySelectorAll('.slide');
-            const navIcons = document.querySelectorAll('.nav-icon');
-
-            navIcons.forEach(icon => {
-                icon.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = icon.getAttribute('href').substring(1);
-                    const targetIndex = Array.from(slides).findIndex(slide => slide.id === targetId);
-                    if (targetIndex !== -1) {
-                        slider.style.transform = `translateX(-${targetIndex * 100}%)`;
-                    }
-                });
-            });
-
-            // Typewriter Effect
-            const typingText = document.querySelector('.typing-text');
-            const texts = ['Frontend Developer', 'Problem Solver', 'Coder'];
-            let i = 0, j = 0, isDeleting = false;
-
-            function type() {
-                typingText.textContent = texts[i].substring(0, j);
-                if (!isDeleting) {
-                    if (++j > texts[i].length) {
-                        isDeleting = true;
-                        setTimeout(type, 1000);
-                        return;
-                    }
-                } else {
-                    if (--j === 0) {
-                        isDeleting = false;
-                        i = (i + 1) % texts.length;
-                    }
-                }
-                setTimeout(type, isDeleting ? 50 : 100);
-            }
-            type();
-
-            // Project Filtering
-            const filterButtons = document.querySelectorAll('#projects .filter-buttons button');
-            const projectCards = document.querySelectorAll('.project-card');
-
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    const filter = button.dataset.filter;
-                    projectCards.forEach(card => {
-                        if (filter === 'all' || card.classList.contains(filter)) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-
-            // Certificate Folders
             const folderHeaders = document.querySelectorAll('.folder-header');
 
             folderHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const folder = header.getAttribute('data-folder');
-                    const content = document.getElementById(`${folder}-content`);
-                    const isActive = header.classList.contains('active');
-
-                    // Close all other folders
-                    folderHeaders.forEach(h => {
-                        if (h !== header) {
-                            h.classList.remove('active');
-                            const otherFolder = h.getAttribute('data-folder');
-                            const otherContent = document.getElementById(`${otherFolder}-content`);
-                            otherContent.classList.remove('active');
-                        }
-                    });
-
-                    // Toggle current folder
-                    if (isActive) {
-                        header.classList.remove('active');
-                        content.classList.remove('active');
-                    } else {
-                        header.classList.add('active');
-                        content.classList.add('active');
-                    }
+                header.addEventListener('click', function() {
+                    const folderContent = this.nextElementSibling;
+                    folderContent.classList.toggle('active');
                 });
             });
-
-            // Lightbox for Certificate Images
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const certImages = document.querySelectorAll('.certificate-img');
-
-            certImages.forEach(img => {
-                img.addEventListener('click', () => {
-                    lightboxImg.src = img.src;
-                    lightbox.style.display = 'flex';
-                });
-            });
-
-            lightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    lightbox.style.display = 'none';
-                }
-            });
-
-            // Starfield Animation Script
-            const canvas = document.getElementById('star-canvas');
-            const ctx = canvas.getContext('2d');
-            let stars = [];
-            let w, h;
-
-            function resize() {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
-            }
-
-            window.addEventListener('resize', resize);
-            resize();
-
-            function createStars(count) {
-                stars = [];
-                for (let i = 0; i < count; i++) {
-                    stars.push({
-                        x: Math.random() * w,
-                        y: Math.random() * h,
-                        radius: Math.random() * 1.5,
-                        alpha: Math.random(),
-                        dx: (Math.random() - 0.5) * 0.2,
-                        dy: (Math.random() - 0.5) * 0.2,
-                    });
-                }
-            }
-
-            function drawStars() {
-                ctx.clearRect(0, 0, w, h);
-                for (let star of stars) {
-                    ctx.beginPath();
-                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-                    ctx.fill();
-                    star.x += star.dx;
-                    star.y += star.dy;
-                    if (star.x < 0 || star.x > w || star.y < 0 || star.y > h) {
-                        star.x = Math.random() * w;
-                        star.y = Math.random() * h;
-                    }
-                }
-                requestAnimationFrame(drawStars);
-            }
-
-            createStars(150);
-            drawStars();
-
-            // Starry Rain Animation Script
-            (() => {
-                const cnv = document.getElementById('stars-canvas');
-                const ctx = cnv.getContext('2d');
-                let W, H;
-
-                const resize = () => {
-                    W = innerWidth; H = innerHeight;
-                    cnv.width = W; cnv.height = H;
-                };
-
-                addEventListener('resize', resize);
-                resize();
-
-                const stars = [];
-
-                const addStar = () => {
-                    stars.push({
-                        x: Math.random() * W,
-                        y: -10,
-                        len: Math.random() * 80 + 20,
-                        speed: Math.random() * 3 + 2,
-                        opacity: 0,
-                        phase: 0
-                    });
-                };
-
-                const draw = () => {
-                    ctx.clearRect(0, 0, W, H);
-                    ctx.fillStyle = 'white';
-                    ctx.shadowColor = 'white';
-                    ctx.shadowBlur = 10;
-
-                    stars.forEach((s, i) => {
-                        s.y += s.speed;
-                        s.phase = Math.min(1, s.phase + 0.01);
-                        s.opacity = Math.sin(s.phase * Math.PI);
-                        const tailEnd = Math.max(s.y - s.len, 0);
-                        const grd = ctx.createLinearGradient(s.x, s.y, s.x, tailEnd);
-                        grd.addColorStop(0, `rgba(255,255,255,${s.opacity})`);
-                        grd.addColorStop(1, 'rgba(255,255,255,0)');
-                        ctx.fillStyle = grd;
-                        ctx.fillRect(s.x - 0.5, tailEnd, 1, s.y - tailEnd);
-                        if (s.y > H + 10) stars.splice(i, 1);
-                    });
-
-                    if (Math.random() < 0.3) addStar();
-                    requestAnimationFrame(draw);
-                };
-
-                draw();
-            })();
         });
     </script>
 </body>
