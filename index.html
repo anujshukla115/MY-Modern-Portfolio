@@ -37,6 +37,9 @@
         <div class="slide" id="home">
             <section class="hero">
                 <div class="container">
+                    <br>
+                    <br>
+                    <br>
                     <h1>ANUJ SHUKLA</h1>
                     <br>
                     <br>
@@ -430,21 +433,7 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        .slider {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s ease-in-out;
-        }
-        .slide {
-            min-width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-        }
+        
         /* Star Canvas */
         #star-canvas {
             position: fixed;
@@ -1021,220 +1010,216 @@
                 height: 180px;
             }
         }
+        html {
+    scroll-behavior: smooth;
+}
     </style>
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const slider = document.querySelector('.slider');
-            const slides = document.querySelectorAll('.slide');
-            const navLinks = document.querySelectorAll('.nav-icon');
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href').substring(1);
-                    const targetIndex = Array.from(slides).findIndex(slide => slide.id === targetId);
-                    if (targetIndex !== -1) {
-                        slider.style.transform = `translateX(-${targetIndex * 100}%)`;
-                    }
-                });
-            });
-            // Typewriter Effect
-            const typingText = document.querySelector('.typing-text');
-            const texts = ['Frontend Developer', 'Problem Solver', 'Coder'];
-            let i = 0, j = 0, isDeleting = false;
-            function type() {
-                typingText.textContent = texts[i].substring(0, j);
-                if (!isDeleting) {
-                    if (++j > texts[i].length) {
-                        isDeleting = true;
-                        setTimeout(type, 1000);
-                        return;
-                    }
+       document.addEventListener('DOMContentLoaded', () => {
+    // Typewriter Effect
+    const typingText = document.querySelector('.typing-text');
+    const texts = ['Frontend Developer', 'Problem Solver', 'Coder'];
+    let i = 0, j = 0, isDeleting = false;
+    function type() {
+        typingText.textContent = texts[i].substring(0, j);
+        if (!isDeleting) {
+            if (++j > texts[i].length) {
+                isDeleting = true;
+                setTimeout(type, 1000);
+                return;
+            }
+        } else {
+            if (--j === 0) {
+                isDeleting = false;
+                i = (i + 1) % texts.length;
+            }
+        }
+        setTimeout(type, isDeleting ? 50 : 100);
+    }
+    type();
+
+    // Project Filtering
+    const filterButtons = document.querySelectorAll('#projects .filter-buttons button');
+    const projectCards = document.querySelectorAll('.project-card');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            const filter = button.dataset.filter;
+            projectCards.forEach(card => {
+                if (filter === 'all' || card.classList.contains(filter)) {
+                    card.style.display = 'block';
                 } else {
-                    if (--j === 0) {
-                        isDeleting = false;
-                        i = (i + 1) % texts.length;
-                    }
-                }
-                setTimeout(type, isDeleting ? 50 : 100);
-            }
-            type();
-            // Project Filtering
-            const filterButtons = document.querySelectorAll('#projects .filter-buttons button');
-            const projectCards = document.querySelectorAll('.project-card');
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    const filter = button.dataset.filter;
-                    projectCards.forEach(card => {
-                        if (filter === 'all' || card.classList.contains(filter)) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-            // Certificate Folders
-            const folderHeaders = document.querySelectorAll('.folder-header');
-            folderHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const folder = header.getAttribute('data-folder');
-                    const content = document.getElementById(`${folder}-content`);
-                    const isActive = header.classList.contains('active');
-                    // Close all other folders
-                    folderHeaders.forEach(h => {
-                        if (h !== header) {
-                            h.classList.remove('active');
-                            const otherFolder = h.getAttribute('data-folder');
-                            const otherContent = document.getElementById(`${otherFolder}-content`);
-                            otherContent.classList.remove('active');
-                        }
-                    });
-                    // Toggle current folder
-                    if (isActive) {
-                        header.classList.remove('active');
-                        content.classList.remove('active');
-                    } else {
-                        header.classList.add('active');
-                        content.classList.add('active');
-                    }
-                });
-            });
-            // Lightbox for Certificate Images
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const certImages = document.querySelectorAll('.certificate-img');
-            certImages.forEach(img => {
-                img.addEventListener('click', () => {
-                    lightboxImg.src = img.src;
-                    lightbox.style.display = 'flex';
-                });
-            });
-            lightbox.addEventListener('click', () => {
-                lightbox.style.display = 'none';
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    lightbox.style.display = 'none';
+                    card.style.display = 'none';
                 }
             });
-            // Add scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-            // Observe all sections for animations
-            document.querySelectorAll('.section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(30px)';
-                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(section);
-            });
-            // Observe skill cards and project cards
-            document.querySelectorAll('.skill-card, .project-card, .contact-item').forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                observer.observe(card);
-            });
-            // Starfield Animation Script
-            const canvas = document.getElementById('star-canvas');
-            const ctx = canvas.getContext('2d');
-            let stars = [];
-            let w, h;
-            function resize() {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-            function createStars(count) {
-                stars = [];
-                for (let i = 0; i < count; i++) {
-                    stars.push({
-                        x: Math.random() * w,
-                        y: Math.random() * h,
-                        radius: Math.random() * 1.5,
-                        alpha: Math.random(),
-                        dx: (Math.random() - 0.5) * 0.2,
-                        dy: (Math.random() - 0.5) * 0.2,
-                    });
-                }
-            }
-            function drawStars() {
-                ctx.clearRect(0, 0, w, h);
-                for (let star of stars) {
-                    ctx.beginPath();
-                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-                    ctx.fill();
-                    star.x += star.dx;
-                    star.y += star.dy;
-                    if (star.x < 0 || star.x > w || star.y < 0 || star.y > h) {
-                        star.x = Math.random() * w;
-                        star.y = Math.random() * h;
-                    }
-                }
-                requestAnimationFrame(drawStars);
-            }
-            createStars(150);
-            drawStars();
-            // Starry Rain Animation Script
-            (() => {
-                const cnv = document.getElementById('stars-canvas');
-                const ctx = cnv.getContext('2d');
-                let W, H;
-                const resize = () => {
-                    W = innerWidth; H = innerHeight;
-                    cnv.width = W; cnv.height = H;
-                };
-                addEventListener('resize', resize);
-                resize();
-                const stars = [];
-                const addStar = () => {
-                    stars.push({
-                        x: Math.random() * W,
-                        y: -10,
-                        len: Math.random() * 80 + 20,
-                        speed: Math.random() * 3 + 2,
-                        opacity: 0,
-                        phase: 0
-                    });
-                };
-                const draw = () => {
-                    ctx.clearRect(0, 0, W, H);
-                    ctx.fillStyle = 'white';
-                    ctx.shadowColor = 'white';
-                    ctx.shadowBlur = 10;
-                    stars.forEach((s, i) => {
-                        s.y += s.speed;
-                        s.phase = Math.min(1, s.phase + 0.01);
-                        s.opacity = Math.sin(s.phase * Math.PI);
-                        const tailEnd = Math.max(s.y - s.len, 0);
-                        const grd = ctx.createLinearGradient(s.x, s.y, s.x, tailEnd);
-                        grd.addColorStop(0, `rgba(255,255,255,${s.opacity})`);
-                        grd.addColorStop(1, 'rgba(255,255,255,0)');
-                        ctx.fillStyle = grd;
-                        ctx.fillRect(s.x - 0.5, tailEnd, 1, s.y - tailEnd);
-                        if (s.y > H + 10) stars.splice(i, 1);
-                    });
-                    if (Math.random() < 0.3) addStar();
-                    requestAnimationFrame(draw);
-                };
-                draw();
-            })();
         });
+    });
+
+    // Certificate Folders
+    const folderHeaders = document.querySelectorAll('.folder-header');
+    folderHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const folder = header.getAttribute('data-folder');
+            const content = document.getElementById(`${folder}-content`);
+            const isActive = header.classList.contains('active');
+            // Close all other folders
+            folderHeaders.forEach(h => {
+                if (h !== header) {
+                    h.classList.remove('active');
+                    const otherFolder = h.getAttribute('data-folder');
+                    const otherContent = document.getElementById(`${otherFolder}-content`);
+                    otherContent.classList.remove('active');
+                }
+            });
+            // Toggle current folder
+            if (isActive) {
+                header.classList.remove('active');
+                content.classList.remove('active');
+            } else {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        });
+    });
+
+    // Lightbox for Certificate Images
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const certImages = document.querySelectorAll('.certificate-img');
+    certImages.forEach(img => {
+        img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightbox.style.display = 'flex';
+        });
+    });
+    lightbox.addEventListener('click', () => {
+        lightbox.style.display = 'none';
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            lightbox.style.display = 'none';
+        }
+    });
+
+    // Add scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    // Observe all sections for animations
+    document.querySelectorAll('.section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(section);
+    });
+    // Observe skill cards and project cards
+    document.querySelectorAll('.skill-card, .project-card, .contact-item').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        observer.observe(card);
+    });
+
+    // Starfield Animation Script
+    const canvas = document.getElementById('star-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    let w, h;
+    function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    function createStars(count) {
+        stars = [];
+        for (let i = 0; i < count; i++) {
+            stars.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                radius: Math.random() * 1.5,
+                alpha: Math.random(),
+                dx: (Math.random() - 0.5) * 0.2,
+                dy: (Math.random() - 0.5) * 0.2,
+            });
+        }
+    }
+    function drawStars() {
+        ctx.clearRect(0, 0, w, h);
+        for (let star of stars) {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+            ctx.fill();
+            star.x += star.dx;
+            star.y += star.dy;
+            if (star.x < 0 || star.x > w || star.y < 0 || star.y > h) {
+                star.x = Math.random() * w;
+                star.y = Math.random() * h;
+            }
+        }
+        requestAnimationFrame(drawStars);
+    }
+    createStars(150);
+    drawStars();
+
+    // Starry Rain Animation Script
+    (() => {
+        const cnv = document.getElementById('stars-canvas');
+        const ctx = cnv.getContext('2d');
+        let W, H;
+        const resize = () => {
+            W = innerWidth; H = innerHeight;
+            cnv.width = W; cnv.height = H;
+        };
+        addEventListener('resize', resize);
+        resize();
+        const stars = [];
+        const addStar = () => {
+            stars.push({
+                x: Math.random() * W,
+                y: -10,
+                len: Math.random() * 80 + 20,
+                speed: Math.random() * 3 + 2,
+                opacity: 0,
+                phase: 0
+            });
+        };
+        const draw = () => {
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = 'white';
+            ctx.shadowColor = 'white';
+            ctx.shadowBlur = 10;
+            stars.forEach((s, i) => {
+                s.y += s.speed;
+                s.phase = Math.min(1, s.phase + 0.01);
+                s.opacity = Math.sin(s.phase * Math.PI);
+                const tailEnd = Math.max(s.y - s.len, 0);
+                const grd = ctx.createLinearGradient(s.x, s.y, s.x, tailEnd);
+                grd.addColorStop(0, `rgba(255,255,255,${s.opacity})`);
+                grd.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.fillStyle = grd;
+                ctx.fillRect(s.x - 0.5, tailEnd, 1, s.y - tailEnd);
+                if (s.y > H + 10) stars.splice(i, 1);
+            });
+            if (Math.random() < 0.3) addStar();
+            requestAnimationFrame(draw);
+        };
+        draw();
+    })();
+});
     </script>
 </body>
 </html>
